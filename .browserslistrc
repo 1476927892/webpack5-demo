@@ -1,0 +1,12 @@
+[development]
+last 1 chorme version
+last 1 firefox version
+last 1 safari version
+
+[production]
+Android >= 4.0
+iOS >= 8
+Firefox >= 20
+> 2%
+last 2 versions
+not dead

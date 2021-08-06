@@ -1,0 +1,13 @@
+@font-face {
+  font-family: "myfont";
+  src: url("../assets/iconfont.woff2") format("woff2")
+    url("../assets/iconfont.woff") format("woff");
+}
+body {
+  color: red;
+}
+.cs-box {
+  width: 100px;
+  height: 100px;
+  background-image: url("../assets/1.png");
+}

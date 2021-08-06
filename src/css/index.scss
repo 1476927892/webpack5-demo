@@ -1,0 +1,15 @@
+@font-face {
+  font-family: "iconfont"; /* project id 2243699 */
+  src: url("../assets/iconfont.woff2") format("woff2"),
+    url("../assets//iconfont.woff") format("woff");
+}
+#app {
+  background-image: url("../assets/1.png");
+  width: 100px;
+  height: 100px;
+}
+.aaa {
+  display: flex;
+  gap: 20px;
+  display: grid;
+}
