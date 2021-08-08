@@ -1,59 +1,26 @@
+const VueLoaderPlugin = require("vue-loader/lib/plugin-webpack5");
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const EnvConfig = require("./webpack.env");
+
 module.exports = {
-  // mode: "development",
-  mode: "production",
-  // devtool: "inline-source-map",
-  // devServer: {
-  //   contentBase: "./dist",
-  // },
+  mode: process.env.NODE_ENV,
+  devtool: process.env.NODE_ENV === "development" ? "eval-source-map" : false,
   entry: {
-    index: "./src/index.js",
+    index: ["./src/index.js", "./src/index.html"],
   },
   output: {
     filename: "js/[contenthash][name].js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
-    assetModuleFilename: "assets/[contenthash][ext][query]",
+    ...EnvConfig.output,
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "./src/index.html",
-      minify: {
-        collapseWhitespace: true, //移除空格
-        removeComments: true, //去掉注释
-      },
-    }),
-    //抽离css
-    new MiniCssExtractPlugin({
-      filename: "css/[contenthash][name].css",
-    }),
-  ],
-  optimization: {
-    // splitChunks: {
-    //   chunks: "all",
-    // },
-    minimizer: [
-      // 压缩css
-      new CssMinimizerPlugin(),
-    ],
-  },
+  plugins: [new VueLoaderPlugin(), ...EnvConfig.plugins],
+  optimization: { ...EnvConfig.optimization },
   module: {
     rules: [
       {
-        test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
-      },
-      {
-        test: /\.scss$/i,
-        use: [
-          MiniCssExtractPlugin.loader,
-          "css-loader",
-          "postcss-loader",
-          "sass-loader",
-        ],
+        test: /\.vue$/,
+        loader: "vue-loader",
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -75,22 +42,14 @@ module.exports = {
         test: /\.html$/i,
         use: ["html-loader"],
       },
-      {
-        test: /\.js$/,
-        // 优先执行
-        //  enforce: 'pre',
-
-        enforce: "post", // 延后执行
-        exclude: /(node_modules|bower_components)/,
-        include: path.join(__dirname, "src"),
-        use: {
-          loader: "babel-loader",
-        },
-      },
+      ...EnvConfig.rules,
     ],
   },
+  target: "web",
   devServer: {
     contentBase: path.resolve(__dirname, "dist"),
     port: 1010,
+    hot: true,
   },
+  externals: { ...EnvConfig.externals },
 };

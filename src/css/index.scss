@@ -4,9 +4,11 @@
     url("../assets//iconfont.woff") format("woff");
 }
 #app {
-  background-image: url("../assets/1.png");
-  width: 100px;
-  height: 100px;
+  // background-image: url("../assets/1.png");
+  clip-path: polygon(100% 0, 75% 100%, 10% 100%, 0 0);
+  width: 500px;
+  height: 500px;
+  background-color: green;
 }
 .aaa {
   display: flex;
